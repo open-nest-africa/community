@@ -37,7 +37,7 @@ jobs:
 
             const title = `OpenNest-Africa Community Meeting – ${meetingDate}`;
             
-            const isoTime = meetingTime.split(' ')[0] + ':00';
+            const isoTime = meetingTime.split(' ')[0] + ':00'; // ensures HH:MM:SS
             const isoDateTime = `${meetingDate}T${isoTime}`;
             const timeZoneLink = `https://www.timeanddate.com/worldclock/fixedtime.html?iso=${isoDateTime}&p1=1440`;
 
