@@ -2,8 +2,8 @@ name: Schedule OpenNest-Africa Community Call
 
 on:
   schedule:
-    - cron: '0 14 */14 * 3'  # every 14 days on Wednesday at 14:00 UTC (3PM WAT)
-  workflow_dispatch: # allows manual trigger
+    - cron: '0 14 */14 * 3'  # every 14 days on Wednesday at 3PM WAT (14:00 UTC)
+  workflow_dispatch: # allows manual run
 
 jobs:
   create_issue:
