@@ -3,7 +3,7 @@ name: Schedule OpenNest-Africa Community Call
 on:
   schedule:
     - cron: '0 14 */14 * 3'  # every 14 days on Wednesday at 14:00 UTC (3PM WAT)
-  workflow_dispatch:  # allows manual run
+  workflow_dispatch:
 
 jobs:
   create_issue:
@@ -16,8 +16,7 @@ jobs:
           script: |
             const meetingDate = '2025-07-16';
             const title = `OpenNest-Africa Community Meeting – ${meetingDate}`;
-            const body = `
-## 🗓️ OpenNest-Africa Community Meeting
+            const body = `## 🗓️ OpenNest-Africa Community Meeting
 
 | **Info**        | **Details** |
 |----------------|-------------|
@@ -40,8 +39,7 @@ jobs:
 
 ## 📝 Notes
 
-_Add notes here after the meeting._
-`;
+_Add notes here after the meeting._`;
 
             await github.rest.issues.create({
               owner: context.repo.owner,
