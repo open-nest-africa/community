@@ -1,0 +1,46 @@
+name: Schedule OpenNest-Africa Community Call
+
+on:
+  schedule:
+    - cron: '0 14 */14 * 3'  # every 14 days on Wednesday at 14:00 UTC (3PM WAT)
+  workflow_dispatch: # allows manual trigger
+
+jobs:
+  create_issue:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Create meeting issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = `OpenNest-Africa Community Meeting – ${new Date().toISOString().slice(0,10)}`;
+            const body = `
+<table>
+<tr><th>Meeting Info</th><th>Details</th></tr>
+<tr><td>Purpose</td><td>OpenNest-Africa Community Meeting</td></tr>
+<tr><td>Time</td><td><strong>03:00 WAT</strong> 2025-07-02</td></tr>
+<tr><th>Meeting Place</th><th>Link</th></tr>
+<tr><td>Google Meet</td><td><a href="https://calendar.app.google/LkFw6FXNEAeGoKL88">Join live</a>.</td></tr>
+<tr><th>More Info</th><th>Details</th></tr>
+<tr><td>Meeting Recordings</td><td><a href="https://studio.youtube.com/playlist/PLfbn8DolsILjuDISqCfEx1ufI0a82ywRq/videos">YouTube Playlist</a>.</td></tr>
+</table>
+
+## Agenda
+
+> Don’t wait for the meeting to discuss topics that already have issues. Feel free to comment on them earlier.
+
+1. Q&A  
+2. _Place for your topic_  
+3. Q&A
+
+## Notes  
+_Add notes here after the meeting._
+`;
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: title,
+              body: body,
+            });
