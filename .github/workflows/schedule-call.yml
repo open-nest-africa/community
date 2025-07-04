@@ -10,40 +10,42 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Create meeting issue
+      - name: Create community meeting issue
         uses: actions/github-script@v7
         with:
           script: |
             const meetingDate = '2025-07-16';
             const title = `OpenNest-Africa Community Meeting – ${meetingDate}`;
-            const body = `## 🗓️ OpenNest-Africa Community Meeting
-
-| **Info**        | **Details** |
-|----------------|-------------|
-| **Purpose**     | OpenNest-Africa Community Meeting |
-| **Time**        | **03:00 PM WAT**, Wednesday **${meetingDate}** |
-| **Google Meet** | [Join live](https://calendar.app.google/LkFw6FXNEAeGoKL88) |
-| **Recordings**  | [YouTube Playlist](https://studio.youtube.com/playlist/PLfbn8DolsILjuDISqCfEx1ufI0a82ywRq/videos) |
-
----
-
-## 📌 Agenda
-
-> Don’t wait for the meeting to discuss topics that already have issues. Feel free to comment on them earlier.
-
-1. Q&A  
-2. _Place for your topic_  
-3. Q&A
-
----
-
-## 📝 Notes
-
-_Add notes here after the meeting._`;
+            const body = [
+              "## 🗓️ OpenNest-Africa Community Meeting",
+              "",
+              "| **Info**        | **Details** |",
+              "|----------------|-------------|",
+              "| **Purpose**     | OpenNest-Africa Community Meeting |",
+              `| **Time**        | **03:00 PM WAT**, Wednesday **${meetingDate}** |`,
+              "| **Google Meet** | [Join live](https://calendar.app.google/LkFw6FXNEAeGoKL88) |",
+              "| **Recordings**  | [YouTube Playlist](https://studio.youtube.com/playlist/PLfbn8DolsILjuDISqCfEx1ufI0a82ywRq/videos) |",
+              "",
+              "---",
+              "",
+              "## 📌 Agenda",
+              "",
+              "> Don’t wait for the meeting to discuss topics that already have issues. Feel free to comment on them earlier.",
+              "",
+              "1. Q&A",
+              "2. _Place for your topic_",
+              "3. Q&A",
+              "",
+              "---",
+              "",
+              "## 📝 Notes",
+              "",
+              "_Add notes here after the meeting._"
+            ].join('\n');
 
             await github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: title,
-              body: body,
+              title,
+              body
             });
