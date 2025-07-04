@@ -23,12 +23,17 @@ jobs:
     steps:
       - name: Create community meeting issue
         uses: actions/github-script@v7
+        env:
+          MEETING_DATE: ${{ inputs.meeting_date }}
+          MEETING_TIME: ${{ inputs.meeting_time }}
+          PURPOSE: ${{ inputs.purpose }}
+          IMAGE_URL: ${{ inputs.image_url }}
         with:
           script: |
-            const meetingDate = inputs.meeting_date;
-            const meetingTime = inputs.meeting_time;
-            const purpose = inputs.purpose;
-            const imageUrl = inputs.image_url;
+            const meetingDate = process.env.MEETING_DATE;
+            const meetingTime = process.env.MEETING_TIME;
+            const purpose = process.env.PURPOSE;
+            const imageUrl = process.env.IMAGE_URL;
 
             const title = `OpenNest-Africa Community Meeting – ${meetingDate}`;
             
@@ -43,7 +48,7 @@ jobs:
               "| **Info**        | **Details** |",
               "|----------------|-------------|",
               `| **Purpose**     | ${purpose} |`,
-              `| **Time**        | **${meetingTime}**, Wednesday **${meetingDate}** |`,
+              `| **Time**        | **${meetingTime}**, **${meetingDate}** |`,
               "| **Google Meet** | [Join live](https://calendar.app.google/LkFw6FXNEAeGoKL88) |",
               "| **Recordings**  | [YouTube Playlist](https://studio.youtube.com/playlist/PLfbn8DolsILjuDISqCfEx1ufI0a82ywRq/videos) |",
               `| **Time Zone**   | [🕒 See in your time zone](${timeZoneLink}) |`,
@@ -68,6 +73,6 @@ jobs:
             await github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: title,
-              body: body
+              title,
+              body
             });
