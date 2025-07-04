@@ -25,47 +25,45 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const date = inputs.meeting_date;
-            const time = inputs.meeting_time;
+            const meetingDate = inputs.meeting_date;
+            const meetingTime = inputs.meeting_time;
             const purpose = inputs.purpose;
-            const image = inputs.image_url;
+            const imageUrl = inputs.image_url;
 
-            const [year, month, day] = date.split('-');
-            const formattedDate = `${day}-${month}-${year}`;
+            const title = `OpenNest-Africa Community Meeting – ${meetingDate}`;
+            
+            const isoDateTime = `${meetingDate}T${meetingTime.split(' ')[0]}`;
+            const timeZoneLink = `https://www.timeanddate.com/worldclock/fixedtime.html?iso=${isoDateTime}&p1=1440`;
 
-            const timeZoneLink = `https://www.timeanddate.com/worldclock/fixedtime.html?iso=${date}T${time.replace(' ', '')}&p1=1440`;
-
-            const title = `OpenNest-Africa Community Meeting – ${date}`;
-
-            let body = `
-## 🗓️ OpenNest-Africa Community Meeting
-
-${image ? `![Meeting banner](${image})\n` : ''}
-
-| **Info**         | **Details** |
-|------------------|-------------|
-| **Purpose**      | ${purpose} |
-| **Time**         | **${time}**, Wednesday **${formattedDate}** |
-| **Google Meet**  | [Join live](https://calendar.app.google/LkFw6FXNEAeGoKL88) |
-| **Recordings**   | [YouTube Playlist](https://studio.youtube.com/playlist/PLfbn8DolsILjuDISqCfEx1ufI0a82ywRq/videos) |
-| **Time Zone**    | [🕒 See in your time zone](${timeZoneLink}) |
-
----
-
-## 📌 Agenda
-
-> Don’t wait for the meeting to discuss topics that already have issues. Feel free to comment on them earlier.
-
-1. Q&A  
-2. _Place for your topic_  
-3. Q&A
-
----
-
-## 📝 Notes
-
-_Add notes here after the meeting._
-`;
+            const body = [
+              "## 🗓️ OpenNest-Africa Community Meeting",
+              "",
+              imageUrl ? `![Meeting Banner](${imageUrl})` : "",
+              "",
+              "| **Info**        | **Details** |",
+              "|----------------|-------------|",
+              `| **Purpose**     | ${purpose} |`,
+              `| **Time**        | **${meetingTime}**, Wednesday **${meetingDate}** |`,
+              "| **Google Meet** | [Join live](https://calendar.app.google/LkFw6FXNEAeGoKL88) |",
+              "| **Recordings**  | [YouTube Playlist](https://studio.youtube.com/playlist/PLfbn8DolsILjuDISqCfEx1ufI0a82ywRq/videos) |",
+              `| **Time Zone**   | [🕒 See in your time zone](${timeZoneLink}) |`,
+              "",
+              "---",
+              "",
+              "## 📌 Agenda",
+              "",
+              "> Don’t wait for the meeting to discuss topics that already have issues. Feel free to comment on them earlier.",
+              "",
+              "1. Q&A",
+              "2. _Place for your topic_",
+              "3. Q&A",
+              "",
+              "---",
+              "",
+              "## 📝 Notes",
+              "",
+              "_Add notes here after the meeting._"
+            ].join('\n');
 
             await github.rest.issues.create({
               owner: context.repo.owner,
