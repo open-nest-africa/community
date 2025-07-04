@@ -4,16 +4,16 @@ on:
   workflow_dispatch:
     inputs:
       meeting_date:
-        description: 'Meeting date (YYYY-MM-DD)'
+        description: 'Date of the meeting (YYYY-MM-DD)'
         required: true
       meeting_time:
-        description: 'Meeting time (e.g. 15:00 WAT)'
+        description: 'Time of the meeting (e.g., 15:00 WAT)'
         required: true
       purpose:
         description: 'Purpose of the meeting'
         required: true
       image_url:
-        description: 'Image URL (optional)'
+        description: 'Optional image URL (leave blank if none)'
         required: false
 
 jobs:
@@ -21,52 +21,53 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Create meeting issue
+      - name: Create community meeting issue
         uses: actions/github-script@v7
         with:
           script: |
-            const meetingDate = process.env.INPUT_MEETING_DATE;
-            const meetingTime = process.env.INPUT_MEETING_TIME;
-            const purpose = process.env.INPUT_PURPOSE;
-            const imageUrl = process.env.INPUT_IMAGE_URL;
+            const meetingDate = inputs.meeting_date;
+            const meetingTime = inputs.meeting_time;
+            const purpose = inputs.purpose;
+            const imageUrl = inputs.image_url;
 
             const title = `OpenNest-Africa Community Meeting – ${meetingDate}`;
+            
+            const isoDateTime = `${meetingDate}T${meetingTime.split(' ')[0]}`;
+            const timeZoneLink = `https://www.timeanddate.com/worldclock/fixedtime.html?iso=${isoDateTime}&p1=1440`;
 
-            const isoDate = `${meetingDate}T${meetingTime.split(':')[0]}:00:00`;
-            const timeZoneLink = `https://www.timeanddate.com/worldclock/fixedtime.html?iso=${isoDate}&p1=1440`;
-
-            const body = `
-## 🗓️ OpenNest-Africa Community Meeting
-
-${imageUrl ? `![Meeting Banner](${imageUrl})\n` : ''}
-
-| **Info**        | **Details** |
-|----------------|-------------|
-| **Purpose**     | ${purpose} |
-| **Time**        | **${meetingTime}**, ${meetingDate} |
-| **Google Meet** | [Join live](https://calendar.app.google/LkFw6FXNEAeGoKL88) |
-| **Recordings**  | [YouTube Playlist](https://studio.youtube.com/playlist/PLfbn8DolsILjuDISqCfEx1ufI0a82ywRq/videos) |
-| **Time Zone**   | [🕒 See in your time zone](${timeZoneLink}) |
-
----
-
-## 📌 Agenda
-
-> Don’t wait for the meeting to discuss topics that already have issues. Feel free to comment on them earlier.
-
-1. Q&A  
-2. _Place for your topic_  
-3. Q&A
-
----
-
-## 📝 Notes  
-_Add notes here after the meeting._
-`;
+            const body = [
+              "## 🗓️ OpenNest-Africa Community Meeting",
+              "",
+              imageUrl ? `![Meeting Banner](${imageUrl})` : "",
+              "",
+              "| **Info**        | **Details** |",
+              "|----------------|-------------|",
+              `| **Purpose**     | ${purpose} |`,
+              `| **Time**        | **${meetingTime}**, Wednesday **${meetingDate}** |`,
+              "| **Google Meet** | [Join live](https://calendar.app.google/LkFw6FXNEAeGoKL88) |",
+              "| **Recordings**  | [YouTube Playlist](https://studio.youtube.com/playlist/PLfbn8DolsILjuDISqCfEx1ufI0a82ywRq/videos) |",
+              `| **Time Zone**   | [🕒 See in your time zone](${timeZoneLink}) |`,
+              "",
+              "---",
+              "",
+              "## 📌 Agenda",
+              "",
+              "> Don’t wait for the meeting to discuss topics that already have issues. Feel free to comment on them earlier.",
+              "",
+              "1. Q&A",
+              "2. _Place for your topic_",
+              "3. Q&A",
+              "",
+              "---",
+              "",
+              "## 📝 Notes",
+              "",
+              "_Add notes here after the meeting._"
+            ].join('\n');
 
             await github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: title,
-              body: body,
+              body: body
             });
