@@ -7,7 +7,7 @@ on:
         description: 'Date of the meeting (YYYY-MM-DD)'
         required: true
       meeting_time:
-        description: 'Time of the meeting (e.g., 15:00 WAT)'
+        description: 'Time of the meeting in 24-hour format (HH:MM), e.g., 15:00'
         required: true
       purpose:
         description: 'Purpose of the meeting'
