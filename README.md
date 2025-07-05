@@ -1,18 +1,19 @@
 # 🌍 OpenNest-Africa Community
 
-**OpenNest-Africa** is a global community rooted in collaboration, impact, and open growth.  
-Founded by Africans, open to the world — we build together, learn together, and grow together.
+**OpenNest-Africa** is a global community rooted in collaboration, impact, and open growth. **Founded by Africans, open to the world, we build together, learn together, and grow together.**
 
 ---
 
 ## What is OpenNest-Africa?
 
-We are a community that exists to:
+OpenNest-Africa is a community that exists to:
 
-- Provide space for collaboration on open-source and community-driven projects
-- Support creators, maintainers, contributors, and learners across borders
-- Make knowledge sharing, mentorship, and co-creation accessible to all
+- Provide a free, welcoming space for beginners to contribute to open source in a clear and direct way.
 
+- Create accessible, beginner-friendly resources for anyone, regardless of background, to get involved in open source.
+
+- Make knowledge-sharing, mentorship, and co-creation available and approachable for all.
+  
 This is not just a community — it's a nest. A place where ideas are nurtured, people are empowered, and growth is intentional.
 
 ---
